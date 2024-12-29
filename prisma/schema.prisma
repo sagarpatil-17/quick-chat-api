@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  username  String   @unique
+  email     String   @unique
+  password  String
+  role      String
+  createdAt DateTime @default(now())
+
+  groups           groupsOnUsers[]
+  group_messages   group_messages[]
+  sentMessages     messages[]       @relation("SenderRelation")
+  receivedMessages messages[]       @relation("ReceiverRelation")
+}
+
+model groups {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   @unique
+  description String
+  createdBy   String
+  createdAt   DateTime @default(now())
+
+  users    groupsOnUsers[]
+  messages group_messages[]
+}
+
+model group_messages {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  senderId  String   @db.ObjectId // User who sent the message
+  groupId   String   @db.ObjectId // Group ID
+  content   String
+  timestamp DateTime @default(now())
+
+  sender users  @relation(fields: [senderId], references: [id])
+  group  groups @relation(fields: [groupId], references: [id])
+}
+
+model messages {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  senderId   String   @db.ObjectId // User who sent the message
+  receiverId String   @db.ObjectId // User who received the message
+  content    String
+  timestamp  DateTime @default(now())
+
+  sender   users @relation("SenderRelation", fields: [senderId], references: [id])
+  receiver users @relation("ReceiverRelation", fields: [receiverId], references: [id])
+}
+
+model groupsOnUsers {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  userId  String @db.ObjectId
+  groupId String @db.ObjectId
+
+  user  users  @relation(fields: [userId], references: [id])
+  group groups @relation(fields: [groupId], references: [id])
+}
