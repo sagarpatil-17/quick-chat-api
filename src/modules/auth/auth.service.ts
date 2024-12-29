@@ -43,12 +43,8 @@ export class AuthService {
 
         return {
             auth_token: token,
-            user_info: payload
+            user_info: data
         }
-    }
-
-    async getAllUsers() {
-        return await this.prisma.users.findMany();
     }
 
 }

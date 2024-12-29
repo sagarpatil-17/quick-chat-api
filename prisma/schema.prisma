@@ -18,13 +18,39 @@ model users {
   username  String   @unique
   email     String   @unique
   password  String
+  about     String?  @default("Available")
   role      String
   createdAt DateTime @default(now())
 
-  groups           groupsOnUsers[]
-  group_messages   group_messages[]
-  sentMessages     messages[]       @relation("SenderRelation")
-  receivedMessages messages[]       @relation("ReceiverRelation")
+  groups                 groupsOnUsers[]
+  group_messages         group_messages[]
+  sentMessages           messages[]        @relation("UserSentMessages") // Messages sent by the user
+  receivedMessages       messages[]        @relation("UserReceivedMessages") // Messages received by the user
+  sentFriendRequests     friend_requests[] @relation("FriendRequestSender")
+  receivedFriendRequests friend_requests[] @relation("FriendRequestReceiver")
+  friends                friends[]         @relation("UserToFriend")
+  friendships            friends[]         @relation("FriendToUser")
+}
+
+model friend_requests {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  senderId   String   @db.ObjectId
+  receiverId String   @db.ObjectId
+  status     String   @default("pending") // pending, accepted, rejected
+  createdAt  DateTime @default(now())
+
+  sender   users @relation("FriendRequestSender", fields: [senderId], references: [id])
+  receiver users @relation("FriendRequestReceiver", fields: [receiverId], references: [id])
+}
+
+model friends {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  friendId  String   @db.ObjectId
+  createdAt DateTime @default(now())
+
+  user   users @relation("UserToFriend", fields: [userId], references: [id])
+  friend users @relation("FriendToUser", fields: [friendId], references: [id])
 }
 
 model groups {
@@ -56,8 +82,11 @@ model messages {
   content    String
   timestamp  DateTime @default(now())
 
-  sender   users @relation("SenderRelation", fields: [senderId], references: [id])
-  receiver users @relation("ReceiverRelation", fields: [receiverId], references: [id])
+  sender   users @relation("UserSentMessages", fields: [senderId], references: [id])
+  receiver users @relation("UserReceivedMessages", fields: [receiverId], references: [id])
+
+  @@index([senderId]) // Index for faster queries by sender
+  @@index([receiverId]) // Index for faster queries by receiver
 }
 
 model groupsOnUsers {

@@ -54,7 +54,8 @@ export class GroupService {
                 where: { id: groupId }
             }),
             this.prisma.group_messages.findMany({
-                where: { groupId: groupId }
+                where: { groupId: groupId },
+                include: { sender: { select: { username: true } } }
             })
         ]);
 

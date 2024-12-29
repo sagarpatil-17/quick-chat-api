@@ -20,9 +20,4 @@ export class AuthController {
         return await this.authService.signin(dto);
     }
 
-    @Get('all-users')
-    async getAllUsers() {
-        return await this.authService.getAllUsers();
-    }
-
 }
