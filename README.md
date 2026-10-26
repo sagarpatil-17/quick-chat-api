@@ -2,9 +2,6 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
   <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
     <p align="center">
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
@@ -19,43 +16,46 @@
     <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
   <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+The robust server-side backend API architecture for **QuickChat**, engineered using the **NestJS** framework paired with **MongoDB** data storage. This codebase handles all persistent transaction handling, socket gateways, data hydration layers, and core operations running behind the frontend client application.
+
+## ✨ Core Functionalities & Modules
+*   **Decoupled Microservice Flow:** Structured modular patterns engineered to isolate authentication, user accounts, and live communication pipelines cleanly.
+*   **NoSQL Data Integrity:** Integrates native Mongoose validation models to store, query, and structure chat transcripts and contact graphs smoothly.
+*   **Highly Performant Execution:** Leverages architectural patterns designed for sub-millisecond execution loops and asynchronous thread synchronization.
 
 ## Project setup
 
 ```bash
-$ npm install
+\$ npm install
 ```
 
 ## Compile and run the project
 
 ```bash
 # development
-$ npm run start
+\$ npm run start
 
 # watch mode
-$ npm run start:dev
+\$ npm run start:dev
 
 # production mode
-$ npm run start:prod
+\$ npm run start:prod
 ```
 
 ## Run tests
 
 ```bash
 # unit tests
-$ npm run test
+\$ npm run test
 
 # e2e tests
-$ npm run test:e2e
+\$ npm run test:e2e
 
 # test coverage
-$ npm run test:cov
+\$ npm run test:cov
 ```
 
 ## Resources
